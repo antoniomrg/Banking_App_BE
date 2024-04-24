@@ -1,11 +1,16 @@
 package ex8_CC_SpringBoot.demo.DTO;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UserDTO (
-
-         Long accountNumber,
-         String name,
-         String surname,
-         String iban,
-         double balance
-){
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDTO {
+    private char[] password = "".toCharArray();
+    private Long accountNumber;
+    private String name;
+    private String surname;
+    private String iban;
+    private double balance;
 }

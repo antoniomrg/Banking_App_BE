@@ -30,35 +30,41 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Optional<UserDTO> getUserById(Long id) {
-        return userRepository.findById(id)
+    public Optional<UserDTO> getUserById(Long userId) {
+        Optional<UserDTO> user = userRepository.findById(userId)
                 .map(userMapper::toDto);
+        if (user.isEmpty())
+            throw new EntityNotFoundException("userId not found.");
+        return user;
     }
 
-    public User addUser(User user) {
-        return userRepository.save(user);
-    }
+    public void addUser(UserDTO userDto) {
+        User user = userMapper.fromDto(userDto);
 
-    public double getBalanceByAccountNumber(Long accountNumber) {
-        return userRepository.findBalanceByAccountNumber(accountNumber);
+        userRepository.save(user);
     }
 
     @Transactional
-    public void makeDeposit(Long id, double amount) {
-        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public void makeDeposit(Long userId, double amount) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         updateBalance(user, amount);
     }
 
     @Transactional
-    public void makeWithdrawal(Long id, double amount) {
-        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    public void makeWithdrawal(Long userId, double amount) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         updateBalance(user, -amount);
     }
 
-    private void updateBalance(User user, double amount) {
+    public void updateBalance(User user, double amount) {
         double currentBalance = user.getBalance();
         double newBalance = currentBalance + amount;
         user.setBalance(newBalance);
         userRepository.save(user);
     }
+
+//    public double getBalanceByAccountNumber(Long accountNumber) {
+//        return userRepository.findBalanceByAccountNumber(accountNumber);
+//    }
+
 }
