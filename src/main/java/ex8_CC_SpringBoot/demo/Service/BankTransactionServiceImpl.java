@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,31 +49,23 @@ public class BankTransactionServiceImpl implements BankTransactionService {
 
     @Override
     public void createAndLogBankTransaction(User user, double amount, BankTransactionType bankTransactionType) {
-        // @Builder pattern
-        BankTransaction bankTransaction = new BankTransaction();
-        bankTransaction.setUser(user);
-        bankTransaction.setBankTransactionType(bankTransactionType);
-        bankTransaction.setAmount(amount);
-        bankTransactionRepository.save(bankTransaction);
+        BankTransaction bankTransaction = BankTransaction.builder()
+                .user(user)
+                .amount(amount)
+                .bankTransactionType(bankTransactionType)
+                .transactionDate(LocalDateTime.now())
+        .build();
         bankTransactionRepository.save(bankTransaction);
     }
 
     @Override
     public List<BankTransaction> getLastFiveTransactions(Long userId) {
 
-        List<BankTransaction> allBankTransactions = bankTransactionRepository.findAllByUserId(userId);
+        List<BankTransaction> bankTransactions = bankTransactionRepository.getLastFiveTranscationsByUserId(userId);
 
-        if (allBankTransactions.isEmpty()) {
+        if (bankTransactions.isEmpty()) {
             throw new EntityNotFoundException("userId not found.");
         }
-
-        if (allBankTransactions.size() > 5) {
-            List<BankTransaction> lastFiveBankTransactions =
-                    allBankTransactions.subList(allBankTransactions.size()-5, allBankTransactions.size());
-            return lastFiveBankTransactions;
-        }
-        return allBankTransactions;
+        return bankTransactions;
     }
-
-
 }

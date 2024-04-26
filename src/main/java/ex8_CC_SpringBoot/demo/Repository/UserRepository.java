@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository <User, Long>{
     @Query("SELECT u.balance FROM User u WHERE u.accountNumber = :accountNumber")
     Double findBalanceByAccountNumber(@Param("accountNumber") Long accountNumber);
 
+
 }

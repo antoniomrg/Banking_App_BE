@@ -35,11 +35,15 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-
     @GetMapping(path = "{userId}/history")
     public ResponseEntity<?> getLastFiveTransactions(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(bankTransactionService.getLastFiveTransactions(userId));
 
+    }
+
+    @GetMapping(path = ("/balance"))
+    public double getBalanceByAccountNumber(@RequestParam Long accountNumber) {
+        return userService.getBalanceByAccountNumber(accountNumber);
     }
 
     @PostMapping
@@ -58,8 +62,4 @@ public class UserController {
         bankTransactionService.makeWithdrawal(userId, amount);
     }
 
-//    @GetMapping(path = ("/balance"))
-//    public double getBalanceByAccountNumber(@RequestParam Long accountNumber) {
-//        return userService.getBalanceByAccountNumber(accountNumber);
-//    }
 }

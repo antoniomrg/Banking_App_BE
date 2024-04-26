@@ -38,6 +38,10 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+    public double getBalanceByAccountNumber(Long accountNumber) {
+        return userRepository.findBalanceByAccountNumber(accountNumber);
+    }
+
     public void addUser(UserDTO userDto) {
         User user = userMapper.fromDto(userDto);
 
@@ -62,9 +66,4 @@ public class UserServiceImpl implements UserService{
         user.setBalance(newBalance);
         userRepository.save(user);
     }
-
-//    public double getBalanceByAccountNumber(Long accountNumber) {
-//        return userRepository.findBalanceByAccountNumber(accountNumber);
-//    }
-
 }

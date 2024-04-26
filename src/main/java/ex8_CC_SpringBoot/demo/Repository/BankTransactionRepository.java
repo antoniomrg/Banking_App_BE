@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BankTransactionRepository extends JpaRepository <BankTransaction, Long>  {
-    @Query("SELECT bt FROM BankTransaction bt WHERE bt.user.userId = :userId")
-    List<BankTransaction> findAllByUserId(@Param("userId") Long userId);
+    @Query("SELECT bt FROM BankTransaction bt WHERE bt.user.userId = :userId ORDER BY bt.transactionDate DESC LIMIT 5")
+    List<BankTransaction> getLastFiveTranscationsByUserId(@Param("userId") Long userId);
 }
