@@ -8,11 +8,10 @@ import java.util.Optional;
 public interface UserService {
 
     List<UserDTO> getAllUsers();
-    Optional<UserDTO> getUserById(Long userId);
+    UserDTO getUserById(Long userId);
     double getBalanceByAccountNumber(Long accountNumber);
     void addUser(UserDTO userDto);
     void makeDeposit(Long userId, double amount);
     void makeWithdrawal(Long userId, double amount);
     void updateBalance(User user, double amount);
-
 }

@@ -30,12 +30,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Optional<UserDTO> getUserById(Long userId) {
-        Optional<UserDTO> user = userRepository.findById(userId)
-                .map(userMapper::toDto);
-        if (user.isEmpty())
-            throw new EntityNotFoundException("userId not found.");
-        return user;
+    public UserDTO getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .map(userMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
     }
 
     public double getBalanceByAccountNumber(Long accountNumber) {

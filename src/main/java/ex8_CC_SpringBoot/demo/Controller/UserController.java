@@ -31,8 +31,7 @@ public class UserController {
 
     @GetMapping(path = "{userId}")
     public ResponseEntity<?> getUserById(@PathVariable("userId") Long userId) {
-        Optional<UserDTO> user = ResponseEntity.ok(userService.getUserById(userId)).getBody();
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     @GetMapping(path = "{userId}/history")

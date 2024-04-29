@@ -8,15 +8,14 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler({NoResourceFoundException.class})
 
+    @ExceptionHandler({NoResourceFoundException.class})
     public ResponseEntity<?> handleNoResourceFoundException(NoResourceFoundException ex) {
-        return ResponseEntity.status(ex.getStatusCode()).body("Not found");
+        return ResponseEntity.status(ex.getStatusCode()).body("Resource not found");
     }
 
-
-
-//    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex) {
-//        return ResponseEntity.internalServerError().body("User not found");
-//    }
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex) {
+        return ResponseEntity.status(404).body("User not found");
+    }
 }
