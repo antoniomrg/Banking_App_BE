@@ -18,4 +18,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.status(404).body("User not found");
     }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(400).body("Amount is greater than current balance. Please select a lower amount.");
+    }
 }

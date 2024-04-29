@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService{
     public UserDTO getUserById(Long userId) {
         return userRepository.findById(userId)
                 .map(userMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+                .orElseThrow(() -> new EntityNotFoundException());
     }
 
     public double getBalanceByAccountNumber(Long accountNumber) {
@@ -44,18 +44,6 @@ public class UserServiceImpl implements UserService{
         User user = userMapper.fromDto(userDto);
 
         userRepository.save(user);
-    }
-
-    @Transactional
-    public void makeDeposit(Long userId, double amount) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        updateBalance(user, amount);
-    }
-
-    @Transactional
-    public void makeWithdrawal(Long userId, double amount) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        updateBalance(user, -amount);
     }
 
     public void updateBalance(User user, double amount) {

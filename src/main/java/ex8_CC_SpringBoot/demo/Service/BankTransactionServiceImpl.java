@@ -31,7 +31,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     @Override
     @Transactional
     public void makeDeposit(Long userId, double amount) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
         userService.updateBalance(user, amount);
         createAndLogBankTransaction(user, amount, BankTransactionType.DEPOSIT);
     }
@@ -39,9 +39,9 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     @Transactional
     @Override
     public void makeWithdrawal(Long userId, double amount) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
         if (amount > user.getBalance()){
-            throw new IllegalArgumentException("Insufficient balance");
+            throw new IllegalArgumentException();
         }
         userService.updateBalance(user, -amount);
         createAndLogBankTransaction(user, amount, BankTransactionType.WITHDRAWAL);
@@ -64,7 +64,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
         List<BankTransaction> bankTransactions = bankTransactionRepository.getLastFiveTranscationsByUserId(userId);
 
         if (bankTransactions.isEmpty()) {
-            throw new EntityNotFoundException("userId not found.");
+            throw new EntityNotFoundException();
         }
         return bankTransactions;
     }

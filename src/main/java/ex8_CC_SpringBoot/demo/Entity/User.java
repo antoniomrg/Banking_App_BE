@@ -2,7 +2,6 @@ package ex8_CC_SpringBoot.demo.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -34,5 +33,4 @@ public class User {
 
     @Column(name = "balance")
     private double balance;
-
 }

@@ -11,7 +11,5 @@ public interface UserService {
     UserDTO getUserById(Long userId);
     double getBalanceByAccountNumber(Long accountNumber);
     void addUser(UserDTO userDto);
-    void makeDeposit(Long userId, double amount);
-    void makeWithdrawal(Long userId, double amount);
     void updateBalance(User user, double amount);
 }
