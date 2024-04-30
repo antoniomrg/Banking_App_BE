@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface BankTransactionRepository extends JpaRepository <BankTransaction, Long>  {
     @Query("SELECT bt FROM BankTransaction bt WHERE bt.user.userId = :userId ORDER BY bt.transactionDate DESC LIMIT 5")
-    List<BankTransaction> getLastFiveTranscationsByUserId(@Param("userId") Long userId);
+    List<BankTransaction> getLastFiveTransactionsByUserId(@Param("userId") Long userId);
 }

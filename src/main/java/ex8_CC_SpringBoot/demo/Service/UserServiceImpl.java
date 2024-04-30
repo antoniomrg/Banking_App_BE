@@ -1,13 +1,12 @@
 package ex8_CC_SpringBoot.demo.Service;
+
 import ex8_CC_SpringBoot.demo.DTO.UserDTO;
 import ex8_CC_SpringBoot.demo.DTO.UserMapper;
 import ex8_CC_SpringBoot.demo.Entity.User;
 import ex8_CC_SpringBoot.demo.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService{
 
     public void addUser(UserDTO userDto) {
         User user = userMapper.fromDto(userDto);
-
         userRepository.save(user);
     }
 

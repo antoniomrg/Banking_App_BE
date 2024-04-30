@@ -1,4 +1,4 @@
-package ex8_CC_SpringBoot.demo.Exceptions;
+package ex8_CC_SpringBoot.demo.Controller;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({NoResourceFoundException.class})
     public ResponseEntity<?> handleNoResourceFoundException(NoResourceFoundException ex) {
-        return ResponseEntity.status(ex.getStatusCode()).body("Resource not found");
+        return ResponseEntity.status(404).body("Resource not found");
     }
 
     @ExceptionHandler({EntityNotFoundException.class})
@@ -21,6 +21,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(400).body("Amount is greater than current balance. Please select a lower amount.");
+        return ResponseEntity.status(400).body("Amount is greater than current  balance. Please select a lower amount.");
     }
 }

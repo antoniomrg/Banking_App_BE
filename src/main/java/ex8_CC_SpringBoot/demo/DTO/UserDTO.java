@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    private char[] password = "".toCharArray();
     private Long accountNumber;
     private String name;
     private String surname;

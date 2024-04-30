@@ -16,9 +16,6 @@ public class User {
     @Column(name = "userId")
     private Long userId;
 
-    @Column(name = "password")
-    private char[] password = "".toCharArray();
-
     @Column(name = "accountNumber")
     private Long accountNumber;
 

@@ -1,15 +1,12 @@
 package ex8_CC_SpringBoot.demo.Controller;
 
 import ex8_CC_SpringBoot.demo.DTO.UserDTO;
-import ex8_CC_SpringBoot.demo.Entity.BankTransaction;
-import ex8_CC_SpringBoot.demo.Entity.User;
 import ex8_CC_SpringBoot.demo.Service.BankTransactionService;
 import ex8_CC_SpringBoot.demo.Service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("users")
 @RestController
@@ -41,24 +38,26 @@ public class UserController {
     }
 
     @GetMapping(path = ("/balance"))
-    public double getBalanceByAccountNumber(@RequestParam Long accountNumber) {
-        return userService.getBalanceByAccountNumber(accountNumber);
+    public ResponseEntity<?> getBalanceByAccountNumber(@RequestParam Long accountNumber) {
+        return ResponseEntity.ok(userService.getBalanceByAccountNumber(accountNumber));
     }
 
     @PostMapping
-    // DTO
-    public void addUser(@RequestBody UserDTO userDto) {
+    public ResponseEntity<?> addUser(@RequestBody UserDTO userDto) {
         userService.addUser(userDto);
+        return ResponseEntity.ok().body("User added successfully");
     }
 
     @PutMapping(path = "{userId}/deposit")
-    public void makeDeposit(@PathVariable("userId") Long userId, @RequestParam double amount) {
+    public ResponseEntity<?> makeDeposit(@PathVariable("userId") Long userId, @RequestParam double amount) {
         bankTransactionService.makeDeposit(userId, amount);
+        return ResponseEntity.ok().body("You added " + amount + " to your account");
     }
 
     @PutMapping(path = "{userId}/withdrawal")
-    public void makeWithdrawal(@PathVariable("userId") Long userId, @RequestParam double amount) {
+    public ResponseEntity<?> makeWithdrawal(@PathVariable("userId") Long userId, @RequestParam double amount) {
         bankTransactionService.makeWithdrawal(userId, amount);
+        return ResponseEntity.ok().body("You withdrew " + amount + " from your account");
     }
 
 }

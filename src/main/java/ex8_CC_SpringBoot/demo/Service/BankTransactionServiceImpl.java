@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BankTransactionServiceImpl implements BankTransactionService {
@@ -61,7 +60,7 @@ public class BankTransactionServiceImpl implements BankTransactionService {
     @Override
     public List<BankTransaction> getLastFiveTransactions(Long userId) {
 
-        List<BankTransaction> bankTransactions = bankTransactionRepository.getLastFiveTranscationsByUserId(userId);
+        List<BankTransaction> bankTransactions = bankTransactionRepository.getLastFiveTransactionsByUserId(userId);
 
         if (bankTransactions.isEmpty()) {
             throw new EntityNotFoundException();
