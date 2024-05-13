@@ -5,24 +5,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public UserDTO toDto(User user) {
-        return new UserDTO(
-                user.getAccountNumber(),
+    public UserDto toDto(User user) {
+        return new UserDto(
                 user.getName(),
                 user.getSurname(),
-                user.getIban(),
-                user.getBalance()
+                user.getAddress(),
+                user.getPhoneNumber(),
+                user.getFiscalCode()
         );
     }
 
-    public User fromDto(UserDTO userDto){
+    public User fromDto(UserDto userDto){
        User user = new User();
 
-       user.setAccountNumber(userDto.getAccountNumber());
        user.setName(userDto.getName());
        user.setSurname(userDto.getSurname());
-       user.setIban(userDto.getIban());
-       user.setBalance(userDto.getBalance());
+       user.setAddress(userDto.getAddress());
+       user.setPhoneNumber(userDto.getPhoneNumber());
+       user.setFiscalCode(userDto.getFiscalCode());
 
        return user;
     }

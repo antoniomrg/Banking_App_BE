@@ -1,66 +1,68 @@
 package ex8_CC_SpringBoot.demo.Service;
 
+import ex8_CC_SpringBoot.demo.Entity.BankAccount;
 import ex8_CC_SpringBoot.demo.Entity.BankTransaction;
 import ex8_CC_SpringBoot.demo.Entity.BankTransactionType;
-import ex8_CC_SpringBoot.demo.Entity.User;
+import ex8_CC_SpringBoot.demo.Repository.BankAccountRepository;
 import ex8_CC_SpringBoot.demo.Repository.BankTransactionRepository;
-import ex8_CC_SpringBoot.demo.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 public class BankTransactionServiceImpl implements BankTransactionService {
 
     private final BankTransactionRepository bankTransactionRepository;
-    private final UserService userService;
-    private final UserRepository userRepository;
+    private final BankAccountService bankAccountService;
+    private final BankAccountRepository bankAccountRepository;
 
     public BankTransactionServiceImpl(BankTransactionRepository bankTransactionRepository,
-                                      UserService userService,
-                                      UserRepository userRepository){
+                                      BankAccountService bankAccountService,
+                                      BankAccountRepository bankAccountRepository)
+                                      {
         this.bankTransactionRepository = bankTransactionRepository;
-        this.userService = userService;
-        this.userRepository = userRepository;
+        this.bankAccountService = bankAccountService;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     @Override
     @Transactional
-    public void makeDeposit(Long userId, double amount) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
-        userService.updateBalance(user, amount);
-        createAndLogBankTransaction(user, amount, BankTransactionType.DEPOSIT);
+    public void makeDeposit(Long bankAccountId, double amount) {
+        BankAccount bankAccount = bankAccountRepository.findById(bankAccountId).orElseThrow(() -> new EntityNotFoundException());
+        bankAccountService.updateBalance(bankAccount, amount);
+        createAndLogBankTransaction(bankAccount, amount, BankTransactionType.DEPOSIT);
     }
 
     @Transactional
     @Override
-    public void makeWithdrawal(Long userId, double amount) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
-        if (amount > user.getBalance()){
+    public void makeWithdrawal(Long bankAccountId, double amount) {
+        BankAccount bankAccount= bankAccountRepository.findById(bankAccountId).orElseThrow(() -> new EntityNotFoundException());
+        if (amount > bankAccount.getBalance()){
             throw new IllegalArgumentException();
         }
-        userService.updateBalance(user, -amount);
-        createAndLogBankTransaction(user, amount, BankTransactionType.WITHDRAWAL);
+        bankAccountService.updateBalance(bankAccount, -amount);
+        createAndLogBankTransaction(bankAccount, amount, BankTransactionType.WITHDRAWAL);
     }
 
     @Override
-    public void createAndLogBankTransaction(User user, double amount, BankTransactionType bankTransactionType) {
+    public void createAndLogBankTransaction(BankAccount bankAccount, double amount, BankTransactionType bankTransactionType) {
         BankTransaction bankTransaction = BankTransaction.builder()
-                .user(user)
+                .bankAccount(bankAccount)
                 .amount(amount)
                 .bankTransactionType(bankTransactionType)
-                .transactionDate(LocalDateTime.now())
+                .transactionDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
         .build();
         bankTransactionRepository.save(bankTransaction);
     }
 
     @Override
-    public List<BankTransaction> getLastFiveTransactions(Long userId) {
+    public List<BankTransaction> getLastFiveTransactions(Long bankAccountId) {
 
-        List<BankTransaction> bankTransactions = bankTransactionRepository.getLastFiveTransactionsByUserId(userId);
+        List<BankTransaction> bankTransactions = bankTransactionRepository.getLastFiveTransactionsByAccountId(bankAccountId);
 
         if (bankTransactions.isEmpty()) {
             throw new EntityNotFoundException();

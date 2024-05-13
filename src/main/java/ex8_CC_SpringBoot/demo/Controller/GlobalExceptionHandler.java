@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({EntityNotFoundException.class})
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex) {
-        return ResponseEntity.status(404).body("User not found");
+        return ResponseEntity.status(404).body("Not found");
     }
 
     @ExceptionHandler({IllegalArgumentException.class})

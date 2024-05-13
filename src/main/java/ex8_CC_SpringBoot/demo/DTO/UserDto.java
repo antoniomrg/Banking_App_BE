@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-    private Long accountNumber;
+public class UserDto {
     private String name;
     private String surname;
-    private String iban;
-    private double balance;
+    private String address;
+    private String phoneNumber;
+    private String fiscalCode;
 }

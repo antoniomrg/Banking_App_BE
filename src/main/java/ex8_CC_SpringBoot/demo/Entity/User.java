@@ -1,23 +1,23 @@
 package ex8_CC_SpringBoot.demo.Entity;
-import jakarta.persistence.*;
-import lombok.*;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Entity
+@Data
 @Builder
-@Table(name = "users")
+@Table(name = "Users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
+    @Column(name = "id")
     private Long userId;
-
-    @Column(name = "accountNumber")
-    private Long accountNumber;
 
     @Column(name = "name")
     private String name;
@@ -25,9 +25,12 @@ public class User {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "iban")
-    private String iban;
+    @Column(name = "address")
+    private String address;
 
-    @Column(name = "balance")
-    private double balance;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "fiscal_code")
+    private String fiscalCode;
 }

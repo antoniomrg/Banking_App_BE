@@ -13,18 +13,18 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "transactions")
+@Table(name = "Bank_Transactions")
 public class BankTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
+    @Column(name = "id")
     private Long transactionId;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "bank_account_id")
+    private BankAccount bankAccount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type")
@@ -34,5 +34,5 @@ public class BankTransaction {
     private LocalDateTime transactionDate;
 
     @Column(name = "amount")
-    private double amount;
+    private Double amount;
 }

@@ -1,6 +1,6 @@
 package ex8_CC_SpringBoot.demo.Service;
 
-import ex8_CC_SpringBoot.demo.DTO.UserDTO;
+import ex8_CC_SpringBoot.demo.DTO.UserDto;
 import ex8_CC_SpringBoot.demo.DTO.UserMapper;
 import ex8_CC_SpringBoot.demo.Entity.User;
 import ex8_CC_SpringBoot.demo.Repository.UserRepository;
@@ -20,8 +20,13 @@ public class UserServiceImpl implements UserService{
         this.userMapper = userMapper;
     }
 
+    public void addUser(UserDto userDto) {
+        User user = userMapper.fromDto(userDto);
+        userRepository.save(user);
+    }
+
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userRepository.findAll()
                 .stream()
                 .map(userMapper::toDto)
@@ -29,25 +34,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDTO getUserById(Long userId) {
+    public UserDto getUserById(Long userId) {
         return userRepository.findById(userId)
                 .map(userMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException());
-    }
-
-    public double getBalanceByAccountNumber(Long accountNumber) {
-        return userRepository.findBalanceByAccountNumber(accountNumber);
-    }
-
-    public void addUser(UserDTO userDto) {
-        User user = userMapper.fromDto(userDto);
-        userRepository.save(user);
-    }
-
-    public void updateBalance(User user, double amount) {
-        double currentBalance = user.getBalance();
-        double newBalance = currentBalance + amount;
-        user.setBalance(newBalance);
-        userRepository.save(user);
     }
 }
