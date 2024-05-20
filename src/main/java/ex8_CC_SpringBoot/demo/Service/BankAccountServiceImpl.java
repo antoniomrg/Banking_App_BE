@@ -7,6 +7,7 @@ import ex8_CC_SpringBoot.demo.Entity.User;
 import ex8_CC_SpringBoot.demo.Repository.BankAccountRepository;
 import ex8_CC_SpringBoot.demo.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
