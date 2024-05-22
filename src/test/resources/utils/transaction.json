@@ -1,0 +1,6 @@
+{
+  "transactionId": 1,
+  "bankTransactionType": "DEPOSIT",
+  "transactionDate": "2024-05-13T09:00:00",
+  "amount": 300.00
+}

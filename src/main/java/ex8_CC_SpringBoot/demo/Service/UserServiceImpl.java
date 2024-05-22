@@ -7,6 +7,7 @@ import ex8_CC_SpringBoot.demo.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,8 +36,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .map(userMapper::toDto)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException());
+
+        return userMapper.toDto(user);
     }
 }

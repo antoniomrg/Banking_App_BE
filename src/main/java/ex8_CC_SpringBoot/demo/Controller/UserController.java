@@ -1,9 +1,6 @@
 package ex8_CC_SpringBoot.demo.Controller;
 
 import ex8_CC_SpringBoot.demo.DTO.UserDto;
-import ex8_CC_SpringBoot.demo.Entity.BankAccount;
-import ex8_CC_SpringBoot.demo.Service.BankAccountService;
-import ex8_CC_SpringBoot.demo.Service.BankTransactionService;
 import ex8_CC_SpringBoot.demo.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +29,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping(path = "{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }

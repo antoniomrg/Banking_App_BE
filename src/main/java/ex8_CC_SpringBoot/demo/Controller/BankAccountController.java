@@ -6,7 +6,7 @@ import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("users/{userId}/bank-accounts")
+@RequestMapping("/users/{userId}/bank-accounts")
 @RestController
 public class BankAccountController {
 
@@ -17,13 +17,13 @@ public class BankAccountController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addBankAccountById(@RequestBody BankAccountDto bankAccountDto, @RequestParam Long userId) {
+    public ResponseEntity<?> addBankAccountById(@RequestBody BankAccountDto bankAccountDto, @PathVariable Long userId) {
         bankAccountService.addBankAccountById(bankAccountDto, userId);
         return ResponseEntity.ok("Bank account added successfully");
     }
 
     @GetMapping(path = ("/balance"))
-    public ResponseEntity<?> getBalanceByAccountNumber(@RequestParam Long accountNumber) {
+    public ResponseEntity<Double> getBalanceByAccountNumber(@RequestParam Long accountNumber) {
         return ResponseEntity.ok(bankAccountService.getBalanceByAccountNumber(accountNumber));
     }
 }

@@ -7,11 +7,7 @@ import ex8_CC_SpringBoot.demo.Entity.User;
 import ex8_CC_SpringBoot.demo.Repository.BankAccountRepository;
 import ex8_CC_SpringBoot.demo.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.val;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.resource.NoResourceFoundException;
-
-import java.util.Optional;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
@@ -29,10 +25,10 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     public void addBankAccountById(BankAccountDto bankAccountDto, Long userId){
-       User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
-       BankAccount bankAccount = bankAccountMapper.fromDto(bankAccountDto);
-       bankAccount.setUser(user);
-       bankAccountRepository.save(bankAccount);
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException());
+        BankAccount bankAccount = bankAccountMapper.fromDto(bankAccountDto);
+        bankAccount.setUser(user);
+        bankAccountRepository.save(bankAccount);
     }
 
     public Double getBalanceByAccountNumber(Long accountNumber) {

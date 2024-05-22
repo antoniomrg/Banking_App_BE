@@ -34,6 +34,8 @@ class UserControllerItTest {
 
     private static final String NAME = "Name";
     private static final String SURNAME = "Surname";
+    private static Long USER_ID;
+    private static Long USER_ID_NOT_EXISTING = 999L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,6 +53,7 @@ class UserControllerItTest {
                 .build();
 
         userRepository.save(userList);
+        USER_ID = userList.getUserId();
     }
 
     @Test
@@ -65,12 +68,12 @@ class UserControllerItTest {
 
     @Test
     void getUserById() throws Exception {
-        mockMvc.perform(get("/users", 1L)
+        mockMvc.perform(get("/users/{userId}", USER_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value(NAME))
-                .andExpect(jsonPath("$[0].surname").value(SURNAME));
+                .andExpect(jsonPath("$.name").value(NAME))
+                .andExpect(jsonPath("$.surname").value(SURNAME));
     }
 
     @Test
@@ -86,5 +89,13 @@ class UserControllerItTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("User added successfully"));
+    }
+
+    @Test
+    void getUserNotExisting() throws Exception {
+        mockMvc.perform(get("/users/{userId}", USER_ID_NOT_EXISTING)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }
