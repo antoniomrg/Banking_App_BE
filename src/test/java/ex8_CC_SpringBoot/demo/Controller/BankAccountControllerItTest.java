@@ -35,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BankAccountControllerItTest {
 
     private static Long USER_ID = 0L;
+    private static final Long USER_ID_NOT_EXISTING = 999L;
     private static final Long ACCOUNT_NUMBER = 12345L;
     private static final Double BALANCE = 100.00;
 
@@ -52,8 +53,7 @@ class BankAccountControllerItTest {
         bankAccountRepository.deleteAll();
         userRepository.deleteAll();
 
-        val user = User.builder()
-//                .userId(USER_ID)  // Specify the ID directly
+        var user = User.builder()
                 .name("Test User")
                 .surname("Test Surname")
                 .address("123 Test St")
@@ -66,8 +66,8 @@ class BankAccountControllerItTest {
                         .balance(BALANCE)
                         .build();
 
-        val userTest = userRepository.save(user);
-        USER_ID = userTest.getUserId();
+        user = userRepository.save(user);
+        USER_ID = user.getUserId();
         bankAccountRepository.save(bankAccount);
     }
 
@@ -75,21 +75,7 @@ class BankAccountControllerItTest {
     void addBankAccountById() throws Exception {
         InputStream inputStream = FileUtils.openInputStream(new File("C:\\Users\\black\\Dropbox (Personale)\\Coding\\Aitho\\Backender 101\\Ex_8_CC_SpringBoot\\demo\\src\\test\\resources\\utils\\bankAccount.json"));
 
-        String inputStreamContent = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-
-        System.out.println("InputStream content:");
-        System.out.println(inputStreamContent);
-
-        // Reset the InputStream for ObjectMapper since it has already been read
-        inputStream = FileUtils.openInputStream(new File("C:\\Users\\black\\Dropbox (Personale)\\Coding\\Aitho\\Backender 101\\Ex_8_CC_SpringBoot\\demo\\src\\test\\resources\\utils\\bankAccount.json"));
-
-        // Deserialize the InputStream to BankAccountDto
         BankAccountDto bankAccountDto = new ObjectMapper().readValue(inputStream, BankAccountDto.class);
-
-        // Print the BankAccountDto object
-        System.out.println("BankAccountDto content:");
-        System.out.println(bankAccountDto);
-
 
         mockMvc.perform(post("/users/{userId}/bank-accounts", USER_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -107,5 +93,14 @@ class BankAccountControllerItTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(BALANCE.toString()));
+    }
+
+    @Test
+    void getBalanceByAccountNumber_AccountNumberIsString () throws Exception {
+        mockMvc.perform(get("/users/1/bank-accounts/balance")
+                        .param("accountNumber", "AAAAAAAAA")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }
