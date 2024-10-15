@@ -33,9 +33,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(404).body("User has not made any transaction yet");
     }
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-        return new ResponseEntity<>("Invalid parameter type: " + ex.getValue(), HttpStatus.BAD_REQUEST);
-    }
 
 }

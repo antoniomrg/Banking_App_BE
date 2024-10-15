@@ -25,6 +25,16 @@ class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
+    private UserDto buildFakeUserDto(){
+        return UserDto.builder()
+                .name("Name")
+                .surname("Surname")
+                .address("Address")
+                .phoneNumber("Phone Number")
+                .fiscalCode("Fiscal code")
+                .build();
+    }
+
     @Test
     void addUser() {
         val response = userController.addUser(buildFakeUserDto());
@@ -50,15 +60,5 @@ class UserControllerTest {
         val response = userController.getUserById(1L);
 
         assertEquals(buildFakeUserDto(), response.getBody());
-    }
-
-    private UserDto buildFakeUserDto(){
-        return UserDto.builder()
-                .name("Name")
-                .surname("Surname")
-                .address("Address")
-                .phoneNumber("Phone Number")
-                .fiscalCode("Fiscal code")
-                .build();
     }
 }
