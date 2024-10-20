@@ -5,7 +5,6 @@ import ex8_CC_SpringBoot.demo.Entity.User;
 import java.util.List;
 
 public interface UserService {
-
     List<UserDto> getAllUsers();
     UserDto getUserById(Long userId);
     void addUser(UserDto userDto);

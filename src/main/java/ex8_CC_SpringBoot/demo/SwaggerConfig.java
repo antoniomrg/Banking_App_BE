@@ -46,27 +46,5 @@ public class SwaggerConfig {
                     .collect(Collectors.toList()));
         };
     }
-
-//    @Bean
-//    public OpenApiCustomizer sortTagsExtended () {
-//        return openApi -> {
-//            List<String> customOrder = Arrays.asList("Users", "Bank Accounts", "Bank Transactions");
-//
-//            List<Tag> tags = openApi.getTags();
-//            System.out.println(tags);
-//
-//            List<String> tagNames = new ArrayList<>();
-//
-//            for (Tag tag : tags) {
-//                tagNames.add(tag.getName());
-//            }
-//            System.out.println(tagNames);
-//
-//            tagNames.sort(Comparator.comparingInt(customOrder::indexOf));
-//
-//            System.out.println("Sorted: " + tagNames);
-//
-//        };
-//    }
 }
 

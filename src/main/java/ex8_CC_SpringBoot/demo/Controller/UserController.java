@@ -34,7 +34,7 @@ public class UserController {
                     )
             })
     @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> addUser(@RequestBody UserDto userDto) {
         userService.addUser(userDto);
         return ResponseEntity.ok().body("User added successfully");
     }
@@ -53,7 +53,7 @@ public class UserController {
                     )
             })
     @GetMapping
-    public ResponseEntity<?> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
@@ -71,7 +71,7 @@ public class UserController {
                     )
             })
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable("userId") Long userId) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 }

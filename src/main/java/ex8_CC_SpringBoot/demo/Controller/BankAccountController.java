@@ -37,7 +37,7 @@ public class BankAccountController {
                     )
             })
     @PostMapping
-    public ResponseEntity<?> addBankAccountById(@RequestBody BankAccountDto bankAccountDto, @PathVariable Long userId) {
+    public ResponseEntity<String> addBankAccountById(@RequestBody BankAccountDto bankAccountDto, @PathVariable Long userId) {
         bankAccountService.addBankAccountById(bankAccountDto, userId);
         return ResponseEntity.ok("Bank account added successfully");
     }

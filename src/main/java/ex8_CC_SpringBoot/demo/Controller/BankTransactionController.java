@@ -1,12 +1,15 @@
 package ex8_CC_SpringBoot.demo.Controller;
 
 
+import ex8_CC_SpringBoot.demo.Entity.BankTransaction;
 import ex8_CC_SpringBoot.demo.Service.BankTransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("users/{userId}/bank-transactions")
 @RestController
@@ -36,7 +39,7 @@ public class BankTransactionController {
                     )
             })
     @GetMapping(path = "/history")
-    public ResponseEntity<?> getLastFiveTransactions(@RequestParam Long bankAccountId) {
+    public ResponseEntity<List<BankTransaction>> getLastFiveTransactions(@RequestParam Long bankAccountId) {
         return ResponseEntity.ok(bankTransactionService.getLastFiveTransactions(bankAccountId));
     }
 
@@ -53,7 +56,7 @@ public class BankTransactionController {
                     )
             })
     @PutMapping(path = "/deposit")
-    public ResponseEntity<?> makeDeposit(@RequestParam Long bankAccountId, @RequestParam double amount) {
+    public ResponseEntity<String> makeDeposit(@RequestParam Long bankAccountId, @RequestParam double amount) {
         bankTransactionService.makeDeposit(bankAccountId, amount);
         return ResponseEntity.ok().body("You added " + amount + " to your account");
     }
@@ -75,7 +78,7 @@ public class BankTransactionController {
                     )
             })
     @PutMapping(path = "/withdrawal")
-    public ResponseEntity<?> makeWithdrawal(@RequestParam Long bankAccountId, @RequestParam double amount) {
+    public ResponseEntity<String> makeWithdrawal(@RequestParam Long bankAccountId, @RequestParam double amount) {
         bankTransactionService.makeWithdrawal(bankAccountId, amount);
         return ResponseEntity.ok().body("You withdrew " + amount + " from your account");
     }
